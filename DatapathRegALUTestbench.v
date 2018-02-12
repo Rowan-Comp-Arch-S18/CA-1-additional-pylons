@@ -9,6 +9,12 @@ module DatapathRegALUTestbench();
 	
 	DatapathRegALU dut(DA, SA, SB, W, reset, clock, K, BS, FS, status, data);
 	
+	// R5 <= 24
+	// R7 <= 39
+	// R1 <= R5 + R7
+	// R30 <= R1 ^ R5
+	// R17 <= R30 << 2
+	
 	initial begin
 		clock <= 1'b1;
 		reset <= 1'b0;
