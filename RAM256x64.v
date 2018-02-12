@@ -1,5 +1,5 @@
 module RAM256x64(address, clock, in, write, out);
-	// Address
+	// Hi Mom
 	input [7:0]address;
 	input clock;
 	input [63:0]in;
