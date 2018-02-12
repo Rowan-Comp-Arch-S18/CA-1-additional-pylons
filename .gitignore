@@ -1,4 +1,13 @@
 *.bak
+*.qws
+*.qsf
+*.sof
+*.summary
+*.rpt
+*.smsg
+*.done
+*.jdi
+*.pin
 db/
 simulation/
 incremental_db/
