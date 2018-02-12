@@ -12,31 +12,31 @@ module DatapathRegALUTestbench();
 	initial begin
 		clock <= 1'b1;
 		reset <= 1'b0;
-		#10 DA <= 5'd5;
+		#1 DA <= 5'd5;
 		SA <= 5'd31;
 		W <= 1'b1;
 		K <= 64'd24;
 		BS <= 1'b1;
 		FS <= 5'b00100;
-		#20 DA <= 5'd7;
+		#10 DA <= 5'd7;
 		SA <= 5'd31;
 		W <= 1'b1;
 		K <= 64'd39;
 		BS <= 1'b1;
 		FS <= 5'b00100;
-		#20 DA <= 5'd1;
+		#10 DA <= 5'd1;
 		SA <= 5'd5;
 		SB <= 5'd7;
 		W <= 1'b1;
 		BS <= 1'b0;
 		FS <= 5'b01000;
-		#20 DA <= 5'd30;
+		#10 DA <= 5'd30;
 		SA <= 5'd1;
 		SB <= 5'd5;
 		W <= 1'b1;
 		BS <= 1'b0;
 		FS <= 5'b01100;
-		#20 DA <= 5'd17;
+		#10 DA <= 5'd17;
 		SA <= 5'd30;
 		W <= 1'b1;
 		K <= 64'd2;
@@ -46,6 +46,6 @@ module DatapathRegALUTestbench();
 	end
 	
 	always begin
-		#10 clock <= ~clock;
+		#5 clock <= ~clock;
 	end
 endmodule
