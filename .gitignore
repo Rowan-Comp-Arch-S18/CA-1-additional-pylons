@@ -5,3 +5,16 @@ incremental_db/
 output_files/
 Lab_1.qws
 Lab_1.qsf
+Lab_1.sof
+Lab_1.map.summary
+Lab_1.map.rpt
+Lab_1.flow.rpt
+Lab_1.fit.summary
+Lab_1.fit.smsg
+Lab_1.asm.rpt
+Lab_1.sta.rpt
+Lab_1.done
+Lab_1.sta.summary
+Lab_1.fit.rpt
+Lab_1.jdi
+Lab_1.pin
