@@ -1,20 +1,20 @@
 module RAM256x64(address, clock, in, write, out);
-	// Hi Mom
-	input [7:0]address;
-	input clock;
-	input [63:0]in;
-	input write;
-	output reg [63:0]out;
+	input [7:0] address; //8b address
+	input clock; //1b clock
+	input [63:0] in; //64b input
+	input write; //1b write enable
 	
-	reg [63:0]mem[0:255];
+	output reg [63:0] out; //64b output
+	
+	reg [63:0]mem[0:255]; //reserve memory
 	
 	always @(posedge clock) begin
 		if (write) begin
-			mem[address] <= in;
+			mem[address] <= in; //write to RAM when write is enabled
 		end
 	end
 	
 	always @(posedge clock) begin
-		out <= mem[address];
+		out <= mem[address]; //access RAM
 	end
 endmodule
