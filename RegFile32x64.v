@@ -1,18 +1,19 @@
-module RegFile32x64(A, B, D, DA, SA, SB, W, reset, clock);
-	output [63:0]A, B; //output buses
-	input [63:0]D; // data input
-	input [4:0]DA; // dara address
-	input [4:0]SA; // select for A buses
-	input [4:0]SB; // select for B buses
-	input W; // write enable
-	input reset; // async
-	input clock; // posedge
+module RegFile32x64(D, DA, SA, SB, W, reset, clock, A, B);
+	input [63:0] D; //64b data input
+	input [4:0] DA; //5b data address
+	input [4:0] SA; //5b select for A
+	input [4:0] SB; //5b select for B
+	input W; // 1b write enable
+	input reset; //1b async positive edge reset
+	input clock; //1b positve edge clock
 	
-	wire [63:0] R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32, R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43, R44, R45, R46, R47, R48, R49, R50, R51, R52, R53, R54, R55, R56, R57, R58, R59, R60, R61, R62, R63;
+	output [63:0] A, B; //64b outputs
 	
-	wire [31:0]L;
+	wire [63:0] R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31; //64b wires for each register
 	
-	RegisterNbit reg0  (R00, D, L[0] , reset, clock);
+	wire [31:0] L; //32b wire for load
+	
+	RegisterNbit reg0  (R00, D, L[0] , reset, clock); //connect all of the 64b registers
 	RegisterNbit reg1  (R01, D, L[1] , reset, clock);
 	RegisterNbit reg2  (R02, D, L[2] , reset, clock);
 	RegisterNbit reg3  (R03, D, L[3] , reset, clock);
@@ -45,16 +46,16 @@ module RegFile32x64(A, B, D, DA, SA, SB, W, reset, clock);
 	RegisterNbit reg30 (R30, D, L[30], reset, clock);
 	assign R31 = 64'b0;
 	
-	wire [31:0]m;
+	wire [31:0] m; //32b wire for outputs of decoder 
 	
-	Decoder5to32 D_decoder(DA, m);
+	Decoder5to32 D_decoder(DA, m); //decode data address to m
 	
-	assign L = m & {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W};
+	assign L = m & {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W}; //and load with 32b write enable
 	
-	Mux32to1Nbit A_mux (A, SA, R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31);
-	Mux32to1Nbit B_mux (B, SB, R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31);
+	Mux32to1Nbit A_mux (SA, R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, A); //select A using SA
+	Mux32to1Nbit B_mux (SB, R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, B); //select B using SB
 	
-	defparam A_mux.N = 64;
+	defparam A_mux.N = 64; //force muxes to be 64b
 	defparam B_mux.N = 64;
 	
 endmodule
