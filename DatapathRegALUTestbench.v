@@ -22,6 +22,8 @@ module DatapathRegALUTestbench();
 		clock <= 1'b1;
 		reset <= 1'b0;
 		#1 DA <= 5'd5;
+		selEN <= 1'b1;
+		write <= 1'b0;
 		SA <= 5'd31;
 		W <= 1'b1;
 		K <= 64'd24;

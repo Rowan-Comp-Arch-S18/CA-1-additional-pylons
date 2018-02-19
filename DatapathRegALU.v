@@ -17,7 +17,7 @@ module DatapathRegALU(DA, SA, SB, regW, reset, clock, K, BS, FS, ramW, selEN, st
 	
 	assign BPost = BS ? K : BPre;
 	
-	RAM256x64 ramInst(dataALU, clock, in, ramW, dataRAM);
+	RAM256x64 ramInst(dataALU, clock, BPre, ramW, dataRAM);
 	
 	assign data = selEN ? dataALU : dataRAM; // If selEN is true, data = dataALU; if selEN is false, data = dataRAM
 	
