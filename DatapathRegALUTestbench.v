@@ -17,7 +17,7 @@ module DatapathRegALUTestbench();
 	// R17 <= R30 << 2
 	// M[R7] <= R17
 	// R0 <= M[R7]
-	// R0 <= R0 + 0
+	// R0 <= R0 + 4
 	
 	initial begin
 		clock <= 1'b1;
