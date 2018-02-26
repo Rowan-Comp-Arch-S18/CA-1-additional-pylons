@@ -17,6 +17,7 @@ module DatapathRegALUTestbench();
 	// R17 <= R30 << 2
 	// M[R7] <= R17
 	// R0 <= M[R7]
+	// R0 <= R0 + 0
 	
 	initial begin
 		clock <= 1'b1;
@@ -54,7 +55,7 @@ module DatapathRegALUTestbench();
 		BS <= 1'b1;
 		FS <= 5'b10000;
 		#10 write <= 1'b1;
-		selEN <= 1'b0;
+		selEN <= 1'b1;
 		SA <= 5'd7;
 		SB <= 5'd17;
 		W <= 1'b0;
@@ -69,7 +70,15 @@ module DatapathRegALUTestbench();
 		K <= 64'd0;
 		BS <= 1'b1;
 		FS <= 5'b00100;
-		#5 $stop;
+		#10 DA <= 5'b0;
+		write <= 1'b0;
+		selEN <= 1'b1;
+		SA <= 5'd0;
+		W <= 1'b0;
+		K <= 64'd4;
+		BS <= 1'b1;
+		FS <= 5'b01000;
+		#15 $stop;
 	end
 	
 	always begin
