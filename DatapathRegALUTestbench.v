@@ -7,8 +7,9 @@ module DatapathRegALUTestbench();
 	reg selEN, write;
 	wire [3:0] status;
 	wire [63:0] data;
+	reg [23:0] controlWord;
 	
-	DatapathRegALU dut(DA, SA, SB, W, reset, clock, K, BS, FS, write, selEN, status, data);
+	DatapathRegALU dut(controlWord, reset, clock, K, status, data);
 	
 	// R5 <= 24
 	// R7 <= 39
