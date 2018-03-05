@@ -1,10 +1,6 @@
 module DatapathRegALUTestbench();
-	reg [4:0] DA, SA, SB;
-	reg W, reset, clock;
+	reg reset, clock;
 	reg [63:0]K;
-	reg BS;
-	reg [4:0] FS;
-	reg selEN, write;
 	wire [3:0] status;
 	wire [63:0] data;
 	reg [23:0] controlWord;
@@ -23,62 +19,36 @@ module DatapathRegALUTestbench();
 	initial begin
 		clock <= 1'b1;
 		reset <= 1'b0;
-		#1 DA <= 5'd5;
-		selEN <= 1'b1;
-		write <= 1'b0;
-		SA <= 5'd31;
-		W <= 1'b1;
+		
+		// DA = 00101, SA = 11111, SB = N/A, FS = 00100, regW = 1, ramW = 0, selALU = 1, selK = 1
+		#1 controlWord <= 24'b001011111100000001001011;
 		K <= 64'd24;
-		BS <= 1'b1;
-		FS <= 5'b00100;
-		#10 DA <= 5'd7;
-		SA <= 5'd31;
-		W <= 1'b1;
+		
+		// DA = 00111, SA = 11111, SB = N/A, FS = 00100, regW = 1, ramW = 0, selALU = 1, selK = 1
+		#10 controlWord <= 24'b001111111100000001001011;
 		K <= 64'd39;
-		BS <= 1'b1;
-		FS <= 5'b00100;
-		#10 DA <= 5'd1;
-		SA <= 5'd5;
-		SB <= 5'd7;
-		W <= 1'b1;
-		BS <= 1'b0;
-		FS <= 5'b01000;
-		#10 DA <= 5'd30;
-		SA <= 5'd1;
-		SB <= 5'd5;
-		W <= 1'b1;
-		BS <= 1'b0;
-		FS <= 5'b01100;
-		#10 DA <= 5'd17;
-		SA <= 5'd30;
-		W <= 1'b1;
+		
+		// DA = 00001, SA = 00101, SB = 00111, FS = 01000, regW = 1, ramW = 0, selALU = 1, selK = 0
+		#10 controlWord <= 24'b000010010100111010001010;
+		
+		// DA = 11110, SA = 00001, SB = 00101, FS = 01100, regW = 1, ramW = 0, selALU = 1, selK = 0
+		#10 controlWord <= 24'b111100000100101011001010;
+		
+		// DA = 10001, SA = 11110, SB = N/A, FS = 10000, regW = 1, ramW = 0, selALU = 1, selK = 1
+		#10 controlWord <= 24'b100011111000000100001011;
 		K <= 64'd2;
-		BS <= 1'b1;
-		FS <= 5'b10000;
-		#10 write <= 1'b1;
-		selEN <= 1'b1;
-		SA <= 5'd7;
-		SB <= 5'd17;
-		W <= 1'b0;
+		
+		// DA = N/A, SA = 00111, SB = 10001, FS = 00100, regW = 0, ramW = 1, selALU = 1, selK = 1
+		#10 controlWord <= 24'b000000011110001001000111;
 		K <= 64'd0;
-		BS <= 1'b1;
-		FS <= 5'b00100;
-		#10 DA <= 5'd0;
-		write <= 1'b0;
-		selEN <= 1'b0;
-		SA <= 5'd7;
-		W <= 1'b1;
+		
+		// DA = 00000, SA = 00111, SB = N/A, FS = 00100, regW = 1, ramW = 0, selALU = 0, selK = 1
+		#10 controlWord <= 24'b000000011100000001001001;
 		K <= 64'd0;
-		BS <= 1'b1;
-		FS <= 5'b00100;
-		#10 DA <= 5'b0;
-		write <= 1'b0;
-		selEN <= 1'b1;
-		SA <= 5'd0;
-		W <= 1'b0;
+		
+		// DA = 00000, SA = 00000, SB = N/A, FS = 01000, regW = 0, ramW = 0, selALU = 1, selK = 1
+		#10 controlWord <= 24'b000000000000000010000011;
 		K <= 64'd4;
-		BS <= 1'b1;
-		FS <= 5'b01000;
 		#15 $stop;
 	end
 	
