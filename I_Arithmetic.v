@@ -1,9 +1,10 @@
-module I_Arithmetic(instruction, state, controlWord, nextState);
+module I_Arithmetic(instruction, state, controlWord, nextState, K);
 	input [31:0] instruction;
 	input [1:0] state;
 	
 	output [28:0] controlWord;
 	output [1:0] nextState;
+	output [63:0] K;
 	
 	wire [1:0] Psel, Dsel;
 	wire [4:0] DA, SA, SB, Fsel;
