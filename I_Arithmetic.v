@@ -20,6 +20,8 @@ module I_Arithmetic(instruction, state, controlWord, nextState);
 	assign Bsel = 1'b1; // Enable K to be used instead of B
 	assign PCsel = 1'b0; // (Don't care)
 	assign SL = instruction[29]; // Store on bit 29
+	
+	assign K = {42'd0, instruction[21:10]};
 		
 	assign controlWord = {Psel, DA, SA, SB, Fsel, regW, ramW, Dsel, Bsel, PCsel, SL};
 	
