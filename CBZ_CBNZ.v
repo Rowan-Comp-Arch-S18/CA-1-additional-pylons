@@ -1,4 +1,4 @@
-module B_conditional (status, instruction, state, controlWord, nextState, K);
+module CBZ_CBNZ (status, instruction, state, controlWord, nextState, K);
 	input [31:0] instruction;
 	input [1:0] state;
 	input [3:0] status;
@@ -15,9 +15,10 @@ module B_conditional (status, instruction, state, controlWord, nextState, K);
 	
 	assign V = status[3]; assign C = status[2]; assign Z = status[1]; assign N = status[0]; 
 	
-	Mux8to1Nbit inst1(instruction[2:0], C & ~Z, ~(C & ~Z), ~(N ^ V), N ^ V, ~((N ^ V)|Z), (N ^ V)|Z, 1'b1, 1'b1, mux8out);
-	Mux4to1Nbit inst2(instuction[2:1], Z, C, N, V, mux4out);
-	assign Psel[1] = instruction[3] ? mux8out : mux4out;
+	//Mux8to1Nbit inst1(instruction[2:0], C & ~Z, ~(C & ~Z), ~(N ^ V), N ^ V, ~((N ^ V)|Z), (N ^ V)|Z, 1'b1, 1'b1, mux8out);
+	//Mux4to1Nbit inst2(instuction[2:1], Z, C, N, V, mux4out);
+	//assign Psel[1] = instruction[3] ? mux8out : mux4out;
+	assign Psel[1] = instruction[24] ^ Z;
 	
 	assign Psel[0] = 1'b1; // either PC <- PC + 4 + in * 4 (OR) PC <- PC + 4
 	assign DA = instruction[4:0]; //(Don't care)
