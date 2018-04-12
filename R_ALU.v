@@ -6,7 +6,7 @@ module R_ALU(instruction, state, controlWord, nextState, K);
 	output [1:0] nextState;
 	output [63:0] K;
 	
-	// SA = Rm, SB = Rn
+	// SA = Rn, SB = Rm
 	
 	wire [1:0] Psel;
 	wire [4:0] DA, SA, SB, Fsel;
