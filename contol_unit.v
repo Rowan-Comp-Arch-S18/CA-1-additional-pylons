@@ -27,7 +27,7 @@ module contol_unit(instruction, status, reset, clock, control_word, literal);
 	
 	//partial control unic decoders
 	//D_decoder
-	I_arethmatic_decoder dec0_010 (instruction, I_arithmetic_cw);
+	I_arithmatic_decoder dec0_010 (instruction, I_arithmetic_cw);
 	I_logic_decoder dec0_100 (instruction, I_logic_cw);
 	IW_decoder dec0_101 (instruction, state, IW_cw);
 	R_ALU_decoder dec0_110 (instruction, state, IW_cw);
@@ -51,7 +51,7 @@ module contol_unit(instruction, status, reset, clock, control_word, literal);
 	defparam branch_mux.N = cw_bits+1;
 	
 endmodule
-//module I_arethmatic_decoder (instruction, I_arithmetic_cw);
+//module I_arithmatic_decoder (instruction, I_arithmetic_cw);
 //	
 //endmodule
 //module I_logic_decoder (instruction, I_logic_cw);
