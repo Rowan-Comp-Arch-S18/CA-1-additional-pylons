@@ -1,25 +1,22 @@
 module B_conditional(status, instruction, state, controlWord, nextState, K);
 	input [31:0] instruction;
 	input [1:0] state;
-	input [3:0] status;
+	input [4:0] status;
 	
 	output [30:0] controlWord;
 	output [1:0] nextState;
 	output [63:0] K;
 	
-	wire Z, C, N, V;
+	wire Z, C, N, V, ZI;
 	wire [1:0] Psel;
 	wire [4:0] DA, SA, SB, Fsel;
 	wire regW, ramW, Bsel, EN_MEM, EN_ALU, EN_B, EN_PC, PCsel, SL;
-	wire mux8out, mux4out;
+	wire muxout;
 	
-	assign V = status[3]; assign C = status[2]; assign Z = status[1]; assign N = status[0]; 
+	assign V = status[4]; assign C = status[3]; assign Z = status[2]; assign N = status[1]; assign ZI = status[0];
 	
-	Mux8to1Nbit inst1(instruction[2:0], C & ~Z, ~(C & ~Z), ~(N ^ V), N ^ V, ~((N ^ V)|Z), (N ^ V)|Z, 1'b1, 1'b1, mux8out);
-	Mux4to1Nbit inst2(instuction[2:1], Z, C, N, V, mux4out);
-	assign Psel[1] = instruction[3] ? mux8out : mux4out;
-	
-	assign Psel[0] = 1'b1; // either PC <- PC + 4 + in * 4 (OR) PC <- PC + 4
+	Mux8to1Nbit bcondmux (muxout, instruction[3:1], Z, C, N, V, (C & ~Z), ~(N^V), (~(N^V) & ~Z), ~I[0]);
+	assign Psel = {muxout ^ instruction[0], 1'b1}; // either PC <- PC + 4 + in * 4 (OR) PC <- PC + 4
 	assign DA = 5'b11111; //(Don't care)
 	assign SA = 5'b11111; // (Don't care)
 	assign SB = 5'b11111; // (Don't care)

@@ -1,5 +1,5 @@
-module DatapathRegALU(controlWord, reset, clock, K, statusReg, data);
-	input [28:0] controlWord;
+module DatapathRegALU(controlWord, reset, clock, K, statusOut, data);
+	input [30:0] controlWord;
 	wire [4:0] DA, SA, SB;
 	wire [1:0] PS;
 	input reset, clock;
@@ -7,15 +7,16 @@ module DatapathRegALU(controlWord, reset, clock, K, statusReg, data);
 	wire selB;
 	wire [4:0] FS;
 	wire regW, ramW;
-	wire [1:0]selD;
-	wire [3:0] status;
+	wire EN_MEM, EN_ALU, EN_B, EN_PC;
 	output [63:0] data;
 	wire [63:0] PC, PC4;
 	wire PCsel;
 	wire SL;
-	output reg [3:0]statusReg;
+	wire [3:0] status;
+	wire [4:0] statusOut;
+	reg [3:0]statusReg;
 	
-	assign {PS, DA, SA, SB, FS, regW, ramW, selD, selB, PCsel, SL} = controlWord; // assigning control signals to a single control word
+	assign {PS, DA, SA, SB, FS, regW, ramW, EN_MEM, EN_ALU, EN_B, EN_PC, selB, PCsel, SL} = controlWord; // assigning control signals to a single control word
 
 	wire [63:0] A, BPre, BPost, dataALU, dataRAM; // wires inbetween components, previously undefined
 	
@@ -27,16 +28,17 @@ module DatapathRegALU(controlWord, reset, clock, K, statusReg, data);
 	
 	RAM256x64 ramInst(dataALU, clock, BPre, ramW, dataRAM); // instance of RAM file
 	
-	//assign data = selD ? dataALU : dataRAM; // If selD is true, data = dataALU; if selD is false, data = dataRAM
-	
-	Mux4to1Nbit(selD, dataRAM, dataALU, BPre, PC, data);
-	
-	//add control unit
+	assign data = EN_MEM ? dataRAM : 64'bz;
+	assign data = EN_ALU ? dataALU : 64'bz;
+	assign data = EN_B ? BPre : 64'bz;
+	assign data = EN_PC ? PC4 : 64'bz;
 	
 	assign PCin = PCsel ? K : A;
 	
 	ProgramCounter(clock, PCin, PS, PC, PC4);
 	
 	always@(posedge clock) if (SL) statusReg <= status;
+	
+	assign statusOut = {statusReg, status[1]}; //1b overflow, carry-out, zero, negative, zero immediate
 	
 endmodule
