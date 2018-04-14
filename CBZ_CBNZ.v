@@ -32,7 +32,7 @@ module CBZ_CBNZ(status, instruction, state, controlWord, nextState, K);
 	assign EN_PC = 1'b0;
 	assign Bsel = 1'b0; // Register B output to ALU for comparison
 	assign PCsel = 1'b1; // select K
-	assign SL = 1'b0; // (Don't care)
+	assign SL = Z; // Z immeditate
 	
 	assign K = {{45{instruction[23]}},{instruction[23:5]}};
 		
