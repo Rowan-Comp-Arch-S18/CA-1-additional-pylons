@@ -8,7 +8,7 @@ module ProgramCounter(clock, in, PS, PC, PC4);
 	wire [63:0] PCi, PC;
 	reg [63:0] PCreg;
 	wire [31:0] ROMout;
-	wire [63:0] SHL2, signExtend, PC4PCx4;
+	wire [63:0] SHL2, SHR2, signExtend, PC4PCx4;
 	
 	ROM romInst (ROMout, PC);
 	
@@ -18,7 +18,7 @@ module ProgramCounter(clock, in, PS, PC, PC4);
 	
 	Adder adderInst3 (SHL2, PC4, 1'b0, , PC4PCx4); 
 	
-	Shifter shifter_inst(in, 6'd2, SHL2, );
+	Shifter shifter_inst(in, 6'd2, SHL2, SHR2);
 	
 	//assign signExtend = {{38{in[25]}},in[25:0]};
 	
