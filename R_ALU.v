@@ -27,10 +27,10 @@ module R_ALU(instruction, state, controlWord, nextState, K);
 	assign PCsel = 1'b0; //Pass A to PC (This could be 0 or 1)
 	assign SL = (instruction[29] & instruction[24]) | (instruction[30] & instruction[29] & ~instruction[24]); //Store on (bit 29 and bit 24) or (bit 30 and bit 29 and not bit 24)
 	
+	assign K = {58'd0, instruction[15:10]};
+	
 	assign controlWord = {Psel, DA, SA, SB, Fsel, regW, ramW, EN_MEM, EN_ALU, EN_B, EN_PC, Bsel, PCsel, SL};
 	
 	assign nextState = 2'b00;
-	
-	assign K = {58'd0, instruction[15:10]};
 	
 endmodule
