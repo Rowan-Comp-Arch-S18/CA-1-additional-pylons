@@ -1,4 +1,4 @@
-module B (instruction, state, controlWord, nextState, K);
+module B(instruction, state, controlWord, nextState, K);
 	input [31:0] instruction;
 	input [1:0] state;
 	
