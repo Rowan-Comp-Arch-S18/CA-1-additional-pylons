@@ -37,6 +37,7 @@ module DatapathRegALU(controlWord, reset, clock, K, statusOut, data);
 	
 	ProgramCounter programCounter(clock, PCin, PS, PC, PC4);
 	
+	initial statusReg <= 4'b0000;
 	always@(posedge clock) if (SL) statusReg <= status;
 	
 	assign statusOut = {statusReg, status[1]}; //1b overflow, carry-out, zero, negative, zero immediate
