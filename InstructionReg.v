@@ -1,4 +1,4 @@
-module InstructionReg();
+module InstructionReg(D, DA, SA, SB, W, reset, clock, A, B);
 input [31:0] D; //32b data input
 	input [4:0] DA; //5b data address
 	input [4:0] SA; //5b select for A

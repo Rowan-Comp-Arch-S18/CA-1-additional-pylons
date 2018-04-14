@@ -13,12 +13,12 @@ module DatapathRegALU(controlWord, reset, clock, K, statusOut, data);
 	wire PCsel;
 	wire SL;
 	wire [3:0] status;
-	wire [4:0] statusOut;
+	output [4:0] statusOut;
 	reg [3:0]statusReg;
 	
 	assign {PS, DA, SA, SB, FS, regW, ramW, EN_MEM, EN_ALU, EN_B, EN_PC, selB, PCsel, SL} = controlWord; // assigning control signals to a single control word
 
-	wire [63:0] A, BPre, BPost, dataALU, dataRAM; // wires inbetween components, previously undefined
+	wire [63:0] A, BPre, BPost, dataALU, dataRAM, PCin; // wires inbetween components, previously undefined
 	
 	RegFile32x64 regInst(data, DA, SA, SB, regW, reset, clock, A, BPre); // instance of registry file
 	
@@ -35,7 +35,7 @@ module DatapathRegALU(controlWord, reset, clock, K, statusOut, data);
 	
 	assign PCin = PCsel ? K : A;
 	
-	ProgramCounter(clock, PCin, PS, PC, PC4);
+	ProgramCounter programCounter(clock, PCin, PS, PC, PC4);
 	
 	always@(posedge clock) if (SL) statusReg <= status;
 	

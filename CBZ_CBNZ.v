@@ -11,11 +11,10 @@ module CBZ_CBNZ(status, instruction, state, controlWord, nextState, K);
 	wire [1:0] Psel;
 	wire [4:0] DA, SA, SB, Fsel;
 	wire regW, ramW, Bsel, EN_MEM, EN_ALU, EN_B, EN_PC, PCsel, SL;
-	wire mux8out, mux4out;
 	
 	assign V = status[4]; assign C = status[3]; assign Z = status[2]; assign N = status[1]; assign ZI = status[0];
 	
-	assign Psel = {instruction[24] ^ ZI, 1'b1); // either PC <- PC + 4 + in * 4 (OR) PC <- PC + 4
+	assign Psel = {instruction[24] ^ ZI, 1'b1}; // either PC <- PC + 4 + in * 4 (OR) PC <- PC + 4
 	assign DA = 5'b11111; //(Don't care)
 	assign SA = 5'b11111; // Compare against 0
 	assign SB = instruction[4:0];
