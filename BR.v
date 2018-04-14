@@ -7,10 +7,10 @@ module BR(instruction, state, controlWord, nextState, K);
 	output [63:0] K;
 	
 	// SA = Rn, SB = Rm
-	
-	wire [1:0] Psel, Dsel;
+
+	wire [1:0] Psel;
 	wire [4:0] DA, SA, SB, Fsel;
-	wire regW, ramW, Bsel, PCsel, SL;
+	wire regW, ramW, Bsel, EN_MEM, EN_ALU, EN_B, EN_PC, PCsel, SL;
 	
 	assign Psel = 2'b10; //PC <- PC + in
 	assign DA = 5'b11111; //THIS IS A DON'T CARE
