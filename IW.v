@@ -1,4 +1,4 @@
-module I_Arithmetic(instruction, state, controlWord, nextState, K);
+module IW(instruction, state, controlWord, nextState, K);
 	input [31:0] instruction;
 	input [1:0] state;
 	
@@ -10,11 +10,11 @@ module I_Arithmetic(instruction, state, controlWord, nextState, K);
 	wire [4:0] DA, SA, SB, Fsel;
 	wire regW, ramW, Bsel, EN_MEM, EN_ALU, EN_B, EN_PC, PCsel, SL;
 	
-	assign Psel = 2'b01; // PC <- PC + 4
+	assign Psel = {1'b0, ~(state[0] ^ instruction[29]); // PC <- PC + 4 on MOVZ and MOVK state 2, PC <- PC on MOVK state 1
 	assign DA = instruction[4:0];
-	assign SA = instruction[9:5]; // Rn = A
+	assign SA = instruction[29] ? instruction[4:0] : 5'b11111; // Rn = A 
 	assign SB = 5'b00000; // K is used instead of B
-	assign Fsel = {4'b0100, instruction[30]}; // ADD, invert A on bit 30, do not invert B
+	assign Fsel = {2'b00, ~(state[0] ^ instruction[29], 2'b00}; // OR on MOVZ and MOVK state 2, AND on MOVK state 1
 	assign regW = 1'b1; // Write to register
 	assign ramW = 1'b0; // Do not write to RAM
 	assign EN_MEM = 1'b0;
@@ -23,12 +23,12 @@ module I_Arithmetic(instruction, state, controlWord, nextState, K);
 	assign EN_PC = 1'b0;
 	assign Bsel = 1'b1; // Enable K to be used instead of B
 	assign PCsel = 1'b0; // (Don't care)
-	assign SL = instruction[29]; // Store on bit 29
+	assign SL = 1'b0; // No status flags
 	
-	assign K = {52'd0, instruction[21:10]};
+	assign K = (state[0] ^ instruction[29]) ? ; {48'b111111111111111111111111111111111111111111111111, 16'd0} : {48'd0, instruction[20:5]};
 		
 	assign controlWord = {Psel, DA, SA, SB, Fsel, regW, ramW, EN_MEM, EN_ALU, EN_B, EN_PC, Bsel, PCsel, SL};
 	
-	assign nextState = 2'b00;
+	assign nextState = {1'b0, instruction[29] & state[0]};
 	
 endmodule
