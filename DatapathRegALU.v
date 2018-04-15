@@ -8,7 +8,7 @@ module DatapathRegALU(controlWord, reset, clock, K, PC4, statusOut, data, addres
 	wire [4:0] FS;
 	wire regW, ramW;
 	wire EN_MEM, EN_ALU, EN_B, EN_PC;
-	output [63:0] data, PCin;
+	output [63:0] data, PCin, address;
 	wire [63:0] PC;
 	wire PCsel;
 	wire SL;
@@ -23,6 +23,8 @@ module DatapathRegALU(controlWord, reset, clock, K, PC4, statusOut, data, addres
 	RegFile32x64 regInst(data, DA, SA, SB, regW, reset, clock, A, BPre); // instance of registry file
 	
 	ALU aluInst(A, BPost, FS, status, dataALU); // instance of ALU
+	
+	assign address = dataALU;
 	
 	assign BPost = selB ? K : BPre; // MUX for selecting between B and K
 	
