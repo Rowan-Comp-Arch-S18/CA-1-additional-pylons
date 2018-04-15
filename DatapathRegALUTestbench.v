@@ -2,10 +2,10 @@ module DatapathRegALUTestbench();
 	reg reset, clock;
 	reg [63:0]K;
 	wire [4:0] status;
-	wire [63:0] data;
+	wire [63:0] data, address, PCin, PC4;
 	reg [30:0] controlWord;
 	
-	DatapathRegALU dut(controlWord, reset, clock, K, status, data);
+	DatapathRegALU dut(controlWord, reset, clock, K, PC4, status, data, address, PCin);
 	
 	// R5 <= 24
 	// R7 <= 39

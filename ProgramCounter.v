@@ -1,38 +1,22 @@
-module ProgramCounter(clock, in, PS, PC, PC4);
+module ProgramCounter(reset, clock, in, PS, PC, PC4);
 	input [1:0] PS;
-	input clock;
+	input reset, clock;
 	input [63:0] in;
-	output [63:0] PC, PC4;
+	output [63:0] PC4;
+	output reg [63:0] PC;
 	
-	
-	wire [63:0] PCi, PC;
-	reg [63:0] PCreg;
-	wire [31:0] ROMout;
+	wire [63:0] PCi;
 	wire [63:0] SHL2, SHR2, signExtend, PC4PCx4;
 	
-	ROM romInst (ROMout, PC);
+	// Calculate PC + 4
+	Adder pc4Adder(PC, 64'd4, 1'b0, , PC4);
 	
-	Adder adderInst1 (PC, 64'd4, 1'b0, , PC4); 
+	// Shift for PC + 4 + in * 4
+	Shifter inShift(in, 6'd2, SHL2, SHR2);
+	Adder pc4in2Adder(SHL2, PC4, 1'b0, , PC4PCx4);
 	
-	//Adder adderInst2 (addOut, PC4PCx4, 1'b0, , ALUresult);
+	always @(posedge clock) PC <= PCi;
 	
-	Adder adderInst3 (SHL2, PC4, 1'b0, , PC4PCx4); 
-	
-	Shifter shifter_inst(in, 6'd2, SHL2, SHR2);
-	
-	//assign signExtend = {{38{in[25]}},in[25:0]};
-	
-	//assign ROMextend = {{32{ROMout[31]}},ROMout[31:0]};
-	
-	//assign PC4 = addOut;
-	
-	always @(posedge clock)PCreg <= PCi;
-	
-	assign PC = PCreg;
-								 //  00,  01, 10,     11
+								 //  00,  01, 10,      11
 	Mux4to1Nbit muxInst1 (PS, PC, PC4, in, PC4PCx4, PCi); 	
-	
-	
-	
-	
 endmodule
