@@ -13,7 +13,7 @@ module I_Arithmetic(instruction, state, controlWord, nextState, K);
 	assign Psel = 2'b01; // PC <- PC + 4
 	assign DA = instruction[4:0];
 	assign SA = instruction[9:5]; // Rn = A
-	assign SB = 5'b00000; // K is used instead of B
+	assign SB = 5'b11111; // K is used instead of B
 	assign Fsel = {4'b0100, instruction[30]}; // ADD, invert A on bit 30, do not invert B
 	assign regW = 1'b1; // Write to register
 	assign ramW = 1'b0; // Do not write to RAM

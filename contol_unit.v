@@ -43,11 +43,11 @@ module control_unit(instruction, status, reset, clock, controlWord, K);
 	// decoder module definitions
 	B dec1_000 (instruction, state, B_cw, B_ns, B_K);
 	assign B_cwc = {B_cw, B_K, B_ns};
-	B_conditional dec1_010 (instruction, state, B_conditional_cw, B_conditional_ns, B_conditional_K);
+	B_conditional dec1_010 (status, instruction, state, B_conditional_cw, B_conditional_ns, B_conditional_K);
 	assign B_conditional_cwc = {B_conditional_cw, B_conditional_K, B_conditional_ns};
 	BL dec1_100 (instruction, state, BL_cw, BL_ns, BL_K);
 	assign BL_cwc = {BL_cw, BL_K, BL_ns};
-	CBZ_CBNZ dec1_101 (instruction, state, CBZ_CBNZ_cw, CBZ_CBNZ_ns, CBZ_CBNZ_K);
+	CBZ_CBNZ dec1_101 (status, instruction, state, CBZ_CBNZ_cw, CBZ_CBNZ_ns, CBZ_CBNZ_K);
 	assign CBZ_CBNZ_cwc = {CBZ_CBNZ_cw, CBZ_CBNZ_K, CBZ_CBNZ_ns};
 	BR dec1_110 (instruction, state, BR_cw, BR_ns, BR_K);
 	assign BR_cwc = {BR_cw, BR_K, BR_ns};
