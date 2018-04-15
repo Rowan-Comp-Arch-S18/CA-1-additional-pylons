@@ -15,7 +15,7 @@ module B_conditional(status, instruction, state, controlWord, nextState, K);
 	
 	assign V = status[4]; assign C = status[3]; assign Z = status[2]; assign N = status[1]; assign ZI = status[0];
 	
-	Mux8to1Nbit bcondmux (muxout, instruction[3:1], Z, C, N, V, (C & ~Z), ~(N^V), (~(N^V) & ~Z), ~instruction[0]);
+	Mux8to1Nbit bcondmux (instruction[3:1], Z, C, N, V, (C & ~Z), ~(N^V), (~(N^V) & ~Z), ~instruction[0], muxout);
 	assign Psel = {muxout ^ instruction[0], 1'b1}; // either PC <- PC + 4 + in * 4 (OR) PC <- PC + 4
 	assign DA = 5'b11111; //(Don't care)
 	assign SA = 5'b11111; // (Don't care)

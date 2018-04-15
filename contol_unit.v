@@ -1,4 +1,4 @@
-module contol_unit(instruction, status, reset, clock, controlWord, K);
+module control_unit(instruction, status, reset, clock, controlWord, K);
 	parameter cw_bits = 31;
 	parameter K_bits = 64;
 	input [31:0] instruction;
