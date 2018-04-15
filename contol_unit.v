@@ -15,29 +15,29 @@ module contol_unit(instruction, status, reset, clock, controlWord, K);
 	wire [cw_bits+K_bits+1:0] branch_cw, other_cw;
 	
 	// controlWord
-	wire [cw_bits-1:0] D_transfer_cw, I_Arithmetic_cw, I_Logic_cw, IW_cw, R_ALU_cw;
+	wire [cw_bits-1:0] D_Transfer_cw, I_Arithmetic_cw, I_Logic_cw, IW_cw, R_ALU_cw;
 	wire [cw_bits-1:0] B_cw, B_conditional_cw, BL_cw, CBZ_CBNZ_cw, BR_cw;
 	
 	// nextState
-	wire [1:0] D_transfer_ns, I_Arithmetic_ns, I_Logic_ns, IW_ns, R_ALU_ns;
+	wire [1:0] D_Transfer_ns, I_Arithmetic_ns, I_Logic_ns, IW_ns, R_ALU_ns;
 	wire [1:0] B_ns, B_conditional_ns, BL_ns, CBZ_CBNZ_ns, BR_ns;
 	
 	// K
-	wire [K_bits-1:0] D_transfer_K, I_Arithmetic_K, I_Logic_K, IW_K, R_ALU_K;
+	wire [K_bits-1:0] D_Transfer_K, I_Arithmetic_K, I_Logic_K, IW_K, R_ALU_K;
 	wire [K_bits-1:0] B_K, B_conditional_K, BL_K, CBZ_CBNZ_K, BR_K;
 	
 	// concatenated controlWord + K + nextState
-	wire [cw_bits+K_bits+1:0] D_transfer_cwc, I_Arithmetic_cwc, I_Logic_cwc, IW_cwc, R_ALU_cwc;
+	wire [cw_bits+K_bits+1:0] D_Transfer_cwc, I_Arithmetic_cwc, I_Logic_cwc, IW_cwc, R_ALU_cwc;
 	wire [cw_bits+K_bits+1:0] B_cwc, B_conditional_cwc, BL_cwc, CBZ_CBNZ_cwc, BR_cwc;
 	
 	// state logic
-	wire NS[1:0];
-	reg state [1:0];
+	wire [1:0] nextState;
+	reg [1:0] state;
 	always @(posedge clock or posedge reset) begin
 		if(reset)
-			state<= 2'b00;
+			state <= 2'b00;
 		else
-			state <= NS;
+			state <= nextState;
 	end
 	
 	// decoder module definitions
@@ -52,8 +52,8 @@ module contol_unit(instruction, status, reset, clock, controlWord, K);
 	BR dec1_110 (instruction, state, BR_cw, BR_ns, BR_K);
 	assign BR_cwc = {BR_cw, BR_K, BR_ns};
 	
-	D_transfer dec0_000 (instruction, state, D_transfer_cw, D_transfer_ns, D_transfer_K);
-	assign D_transfer_cwc = {D_transfer_cw, D_transfer_K, D_transfer_ns};
+	D_Transfer dec0_000 (instruction, state, D_Transfer_cw, D_Transfer_ns, D_Transfer_K);
+	assign D_Transfer_cwc = {D_Transfer_cw, D_Transfer_K, D_Transfer_ns};
 	I_Arithmetic dec0_010 (instruction, state, I_Arithmetic_cw, I_Arithmetic_ns, I_Arithmetic_K);
 	assign I_Arithmetic_cwc = {I_Arithmetic_cw, I_Arithmetic_K, I_Arithmetic_ns};
 	I_Logic dec0_100 (instruction, state, I_Logic_cw, I_Logic_ns, I_Logic_K);
@@ -66,13 +66,13 @@ module contol_unit(instruction, status, reset, clock, controlWord, K);
 	// 8:1 mux to select between branch instructions
 	Mux8to1Nbit branch_mux (opcode[10:8],
 		B_cwc, 0, B_conditional_cwc, 0, BL_cwc,
-		CBZ_CBNZ_cwc, BR_cwc, 0, branch_cwc);
+		CBZ_CBNZ_cwc, BR_cwc, 0, branch_cw);
 	defparam branch_mux.N = (cw_bits+K_bits+2);
 	
 	// 8:1 mux to select between all other instructions
 	Mux8to1Nbit other_mux (opcode[4:2],
-		D_transfer_cwc, 0, I_Arithmetic_cwc, 0, I_Logic_cwc,
-		IW_cwc, R_ALU_cwc, 0, other_cwc);
+		D_Transfer_cwc, 0, I_Arithmetic_cwc, 0, I_Logic_cwc,
+		IW_cwc, R_ALU_cwc, 0, other_cw);
 	defparam other_mux.N = (cw_bits+K_bits+2);
 	
 	// 2:1 mux to select between branch instructions and all others
