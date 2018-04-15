@@ -6,7 +6,7 @@ module ProgramCounter(reset, clock, in, PS, PC, PC4);
 	output reg [63:0] PC;
 	
 	wire [63:0] PCi;
-	wire [63:0] SHL2, SHR2, signExtend, PC4PCx4;
+	wire [63:0] SHL2, SHR2, PC4PCx4;
 	
 	// Calculate PC + 4
 	Adder pc4Adder(PC, 64'd4, 1'b0, , PC4);
