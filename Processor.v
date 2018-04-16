@@ -12,7 +12,8 @@ module Processor(reset, clock);
 	ProgramCounter programCounter(reset, clock, PCin, PS, PC, PC4);
 	DatapathRegALU datapath(controlWord, reset, clock, K, PC4, status, data, address, PCin);
 	control_unit controlUnit(instruction, status, reset, clock, controlWord, K);
-	ROM rom(instruction, PC[17:2]);
+	//ROM rom(instruction, PC[17:2]);
+	rom_case rom(instruction, PC[17:2]);
 	
 	// Peripherals
 	// TODO
