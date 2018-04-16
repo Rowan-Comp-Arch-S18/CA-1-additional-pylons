@@ -21,7 +21,7 @@ module I_Logic(instruction, state, controlWord, nextState, K);
 	assign EN_ALU = 1'b1; //Enable ALU on data bus
 	assign EN_B = 1'b0;
 	assign EN_PC = 1'b0;
-	assign Bsel = 1'b0; // Enable K to be used instead of B
+	assign Bsel = 1'b1; // Enable K to be used instead of B
 	assign PCsel = 1'b0; // (Don't care)
 	assign SL = instruction[30] & instruction[29]; // Store on bit 29
 	
