@@ -12,7 +12,7 @@ module BR(instruction, state, controlWord, nextState, K);
 	wire [4:0] DA, SA, SB, Fsel;
 	wire regW, ramW, Bsel, EN_MEM, EN_ALU, EN_B, EN_PC, PCsel, SL;
 	
-	assign Psel = 2'b10; //PC <- PC + in
+	assign Psel = 2'b10; //PC <- in
 	assign DA = 5'b11111; //THIS IS A DON'T CARE
 	assign SA = instruction[9:5];
 	assign SB = 5'b11111; //THIS IS A DON'T CARE
