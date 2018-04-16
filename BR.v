@@ -24,7 +24,7 @@ module BR(instruction, state, controlWord, nextState, K);
 	assign EN_B = 1'b0;
 	assign EN_PC = 1'b0;
 	assign Bsel = 1'b0; // Pass B to ALU
-	assign PCsel = 1'b1; //Pass A to PC
+	assign PCsel = 1'b0; //Pass A to PC
 	assign SL = 1'b0;
 	
 	assign K = 64'd0; //THIS IS A DON'T CARE
