@@ -81,22 +81,3 @@ module control_unit(instruction, status, reset, clock, controlWord, K);
 	assign nextState = opcode[5] ? branch_cw[1:0] : other_cw[1:0];
 	
 endmodule
-//module I_arithmatic_decoder (instruction, I_arithmetic_cw);
-//	
-//endmodule
-//module I_logic_decoder (instruction, I_logic_cw);
-//endmodule
-//module IW_decoder (instruction, state, IW_cw);
-//endmodule
-//module R_ALU_decoder (instruction, state, IW_cw);
-//endmodule
-//module B_decoder (instruction, B_cw);
-//endmodule
-//module B_cond_decoder (instruction, status[4:1], B_cond_cw);
-//endmodule
-//module BL_decoder (instruction, BL_cw);
-//endmodule
-//module CBZ_decoder (instruction, status[0], CBZ_cw);
-//endmodule
-//module BR_decoder (instruction, BR_cw);
-//endmodule
