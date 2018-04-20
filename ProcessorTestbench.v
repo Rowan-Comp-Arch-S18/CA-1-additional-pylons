@@ -4,6 +4,7 @@ module ProcessorTestbench();
 	
 	// Monitors
 	wire [63:0] PCin, PC, PC4, data, address, K;
+	wire read, write;
 	wire [31:0] instruction; // 32 bit
 	wire [30:0] controlWord; // 31 bit
 	wire [4:0] DA, SA, SB; // register addresses
@@ -13,8 +14,6 @@ module ProcessorTestbench();
 	assign PCin = dut.PCin;
 	assign PC = dut.PC;
 	assign PC4 = dut.PC4;
-	assign data = dut.data;
-	assign address = dut.address;
 	assign K = dut.K;
 	assign instruction = dut.instruction;
 	assign controlWord = dut.controlWord;
@@ -54,7 +53,7 @@ module ProcessorTestbench();
 	assign R30 = dut.datapath.regInst.R30;
 	
 	// DUT
-	Processor dut(reset, clock);
+	Processor dut(reset, clock, data, address, read, write);
 	
 	initial begin
 		clock <= 1'b1;
