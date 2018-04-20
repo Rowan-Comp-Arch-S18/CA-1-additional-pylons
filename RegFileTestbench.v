@@ -1,38 +1,39 @@
 module RegFileTestbench();
-	wire [63:0] A, B;
-	reg [63:0]D;
-	reg [4:0] DA, SA, SB;
-	reg W, reset, clock;
+	reg [63:0] D; //64b input
+	reg [4:0] DA, SA, SB; //5b data address, select A, select B
+	reg W, reset, clock; //1b write enable, reset, clock
 	
-	wire [63:0] R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31;
+	wire [63:0] A, B; //64b outputs
 	
-	RegFile32x64 dut (A, B, D, DA, SA, SB, W, reset, clock);
+	wire [63:0] R00, R01, R02, R03, R04, R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31; //64b registers
+	
+	RegFile32x64 dut (D, DA, SA, SB, W, reset, clock, A, B); //design under test for RegFile32x64
 	
 	initial begin
 		clock <= 1'b0;
-		reset <= 1'b1;
-		DA <= 5'd0;
-		SA <= 5'd31;
-		SB <= 5'd30;
-		W <= 1'b1;
-		D <= $random;
-		#4 reset <= 1'b0;
-		#320 W <= 1'b0;
-		#320 $stop;
+		reset <= 1'b1; //reset
+		DA <= 5'd0; //data goes to R00
+		SA <= 5'd31; //select R31 for A
+		SB <= 5'd30; //select R30 for B
+		W <= 1'b1; //write enabled
+		D <= $random; //data gets random 32b word
+		#4 reset <= 1'b0; //don't reset
+		#320 W <= 1'b0; //write disabled
+		#320 $stop; //stop
 	end
 	
 	always begin
-		#5 clock <= ~clock;
+		#5 clock <= ~clock; //invert clock
 	end
 	
 	always begin
-		#10 DA <= DA + 1'b1;
-		SA <= SA + 1'b1;
-		SB <= SB + 1'b1;
-		D <= $random;
+		#10 DA <= DA + 1'b1; //data address increases
+		SA <= SA + 1'b1; //select for A increases
+		SB <= SB + 1'b1; //select for B increases
+		D <= $random; //data gets random 32b word
 	end
 	
-	assign R00 = dut.R00;
+	assign R00 = dut.R00; //connect registers
 	assign R01 = dut.R01;
 	assign R02 = dut.R02;
 	assign R03 = dut.R03;

@@ -1,13 +1,14 @@
-module Mux32to1Nbit(F, S, I00, I01, I02, I03, I04, I05, I06, I07, I08, I09, I10, I11, I12, I13, I14, I15, I16, I17, I18, I19, I20, I21, I22, I23, I24, I25, I26, I27, I28, I29, I30, I31);
+module Mux32to1Nbit(S, I00, I01, I02, I03, I04, I05, I06, I07, I08, I09, I10, I11, I12, I13, I14, I15, I16, I17, I18, I19, I20, I21, I22, I23, I24, I25, I26, I27, I28, I29, I30, I31, F);
 	parameter N = 8;
 	
-	input [4:0]S;
-	input [N-1:0] I00, I01, I02, I03, I04, I05, I06, I07, I08, I09, I10, I11, I12, I13, I14, I15, I16, I17, I18, I19, I20, I21, I22, I23, I24, I25, I26, I27, I28, I29, I30, I31;
-	output reg [N-1:0]F;
+	input [4:0] S; //5b select
+	input [N-1:0] I00, I01, I02, I03, I04, I05, I06, I07, I08, I09, I10, I11, I12, I13, I14, I15, I16, I17, I18, I19, I20, I21, I22, I23, I24, I25, I26, I27, I28, I29, I30, I31; //Nb inputs
+	
+	output reg [N-1:0] F; //Nb output
 	
 	always @(*) begin
 		case(S)
-			5'b00000: F <= I00;
+			5'b00000: F <= I00; //pass selected input specified by select
 			5'b00001: F <= I01;
 			5'b00010: F <= I02;
 			5'b00011: F <= I03;

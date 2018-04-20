@@ -1,8 +1,9 @@
 module Decoder5to32(S, m);
-	input [4:0]S; //select
-	output [31:0]m; //minterm outputs
+	input [4:0] S; //select
 	
-	assign m[0]  = ~S[4] & ~S[3] & ~S[2] & ~S[1] & ~S[0];
+	output [31:0] m; //minterm outputs
+	
+	assign m[0]  = ~S[4] & ~S[3] & ~S[2] & ~S[1] & ~S[0]; //enable output specified by select
 	assign m[1]  = ~S[4] & ~S[3] & ~S[2] & ~S[1] &  S[0];
 	assign m[2]  = ~S[4] & ~S[3] & ~S[2] &  S[1] & ~S[0];
 	assign m[3]  = ~S[4] & ~S[3] & ~S[2] &  S[1] &  S[0];
