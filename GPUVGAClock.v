@@ -3,10 +3,10 @@ module GPUVGAClock(clock50, clock25);
 	output reg clock25;
 	
 	initial begin
-		counter <= 0;
+		clock25 <= 0;
 	end
 	
 	always @(posedge clock50) begin
-		counter <= counter + 1'b1;
+		clock25 <= ~clock25;
 	end
 endmodule

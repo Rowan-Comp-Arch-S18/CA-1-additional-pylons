@@ -22,14 +22,19 @@ module GPU(procClock, clock50, vga, data, address, read, write);
 	output [13:0] vga;
 	wire [3:0] vgaR, vgaG, vgaB;
 	wire vgaHS, vgaVS;
-	assign {vgaR, vgaG, vgaB, vgaHS, vgaVS} = vga;
+	assign vga = {vgaR, vgaG, vgaB, vgaHS, vgaVS};
 	
 	// VGA control
 	wire displayEnable;
 	wire [9:0] row, col;
 	GPUVGAController vgaController(clockVGA, displayEnable, row, col, vgaHS, vgaVS);
 	
+	// Temp display a white screen
+	assign vgaR = {4{displayEnable}};
+	assign vgaG = {4{displayEnable}};
+	assign vgaB = {4{displayEnable}};
+	
 	// Framebuffers
-	GPUFramebuffer external(address - GPUCharactersAddress, clock50, data, correctAddress & write, no1);
-	GPUFramebuffer internal(address - GPUCharactersAddress, clock50, no1, correctAddress & write, no2);
+	GPUFramebuffer external(address[55:0] - GPUCharactersAddress, clock50, data, correctAddress & write, no1);
+	GPUFramebuffer internal(address[55:0] - GPUCharactersAddress, clock50, no1, correctAddress & write, no2);
 endmodule

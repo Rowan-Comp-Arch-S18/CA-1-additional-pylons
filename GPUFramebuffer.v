@@ -1,6 +1,6 @@
 module GPUFramebuffer(address, clock, in, write, out);
-	parameter framebufferSize = 600;
-	parameter framebufferSizeAddress = 10;
+	parameter framebufferSize = 1200;
+	parameter framebufferSizeAddress = 11;
 	
 	input [63:0] address;
 	input clock;
