@@ -19,6 +19,11 @@ module GPUVGAController(clockVGA, displayEnable, row, col, hsync_n, vsync_n);
 	output [9:0] row, col;
 	output hsync_n, vsync_n;
 	
+	// Location
+	reg [9:0] hCounter, vCounter;
+	assign col = hCounter - (hsyncTime + hBPTime);
+	assign row = vCounter - (vsyncTime + vBPTime);
+	
 	// States
 	parameter syncState = 4'b0001;
 	parameter bpState = 4'b0010;
@@ -42,11 +47,6 @@ module GPUVGAController(clockVGA, displayEnable, row, col, hsync_n, vsync_n);
 	
 	// Display enable
 	assign displayEnable = hState[2] & vState[2];
-	
-	// Location
-	reg [9:0] hCounter, vCounter;
-	assign col = hCounter - (hsyncTime + hBPTime);
-	assign row = vCounter - (vsyncTime + vBPTime);
 	
 	initial begin
 		hCounter <= 10'b0;
