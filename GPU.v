@@ -15,7 +15,7 @@ module GPU(procClock, clock50, vga, data, address, read, write);
 	
 	// Clock
 	input procClock, clock50;
-	wire clockVGA;	
+	wire clockVGA;
 	GPUVGAClock vgaClock(clock50, clockVGA);
 	
 	// Break out VGA signals
