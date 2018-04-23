@@ -8,7 +8,7 @@ module ProcessorDE0(
 	VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS,
 	CLOCK_50, CLOCK_50_2,
 	DRAM_CAS_N, DRAM_CS_N, DRAM_CLK, DRAM_CKE, DRAM_BA_0, DRAM_BA_1, DRAM_DQ, DRAM_LDQM, DRAM_UDQM, DRAM_RAS_N, DRAM_WE_N, DRAM_ADDR,
-	HEX0, HEX1, HEX2, HEX3);
+	HEX0, HEX1, HEX2, HEX3, GPIO1_D, GPIO0_D);
 	// OUTPUT
 	// LED
 	output [9:0] LEDG;
@@ -24,7 +24,8 @@ module ProcessorDE0(
 	output [12:0] DRAM_ADDR;
 	// 7-segment
 	output [6:0] HEX0, HEX1, HEX2, HEX3;
-	
+	// GPIO Extension Board
+	output [31:0]GPIO0_D;
 	// INPUT
 	// Switches
 	input [9:0] SW;
@@ -36,6 +37,8 @@ module ProcessorDE0(
 	input SD_WP_N;
 	// Clocks
 	input CLOCK_50, CLOCK_50_2;
+	// GPIO Extension Board
+	input [31:0]GPIO1_D;
 	
 	// INOUT
 	// PS/2 Keyboard
@@ -59,4 +62,5 @@ module ProcessorDE0(
 	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
 	// Extension Board
+	GPIO extension(CLOCK_50, data, GPIO0_D);
 endmodule
