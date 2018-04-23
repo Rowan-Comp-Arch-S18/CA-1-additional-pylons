@@ -5,5 +5,5 @@ module GPUCharDecoder(row, col, char, charPixelOn);
 	output charPixelOn;
 	
 	// TODO
-	assign charPixelOn = 1'b1;
+	assign charPixelOn = 1'b0;
 endmodule

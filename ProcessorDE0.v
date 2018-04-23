@@ -50,8 +50,8 @@ module ProcessorDE0(
 	wire read, write;
 	
 	// Processor
-	Processor proc(~BUTTON[0], ~BUTTON[2], data, address, read, write);
+	Processor proc(~BUTTON[0], CLOCK_50, data, address, read, write);
 	assign LEDG[9:0] = data[9:0];
 	// Peripherals
-	GPU gpu(~BUTTON[2], CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
+	GPU gpu(CLOCK_50, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
 endmodule

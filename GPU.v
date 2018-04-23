@@ -47,7 +47,7 @@ module GPU(procClock, clock50, vgaOut, data, address, read, write);
 		if (resetControlSignals) begin
 			controlSignals[1:0] <= 2'b00;
 		end
-		else if (write & characterAddress) begin
+		else if (write & controlAddress) begin
 			controlSignals <= data;
 		end
 	end

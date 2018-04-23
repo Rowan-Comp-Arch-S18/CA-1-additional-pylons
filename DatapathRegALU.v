@@ -1,4 +1,4 @@
-module DatapathRegALU(controlWord, reset, clock, K, PC4, statusOut, data, address, EN_ALU, ramW, PCin);
+module DatapathRegALU(controlWord, reset, clock, K, PC4, statusOut, data, address, EN_MEM, ramW, PCin);
 	input [30:0] controlWord;
 	wire [4:0] DA, SA, SB;
 	wire [1:0] PS;
@@ -8,8 +8,8 @@ module DatapathRegALU(controlWord, reset, clock, K, PC4, statusOut, data, addres
 	wire [4:0] FS;
 	wire regW;
 	output ramW;
-	wire EN_MEM, EN_B, EN_PC;
-	output EN_ALU;
+	wire EN_ALU, EN_B, EN_PC;
+	output EN_MEM;
 	output [63:0] data, PCin, address;
 	wire [63:0] PC;
 	wire PCsel;

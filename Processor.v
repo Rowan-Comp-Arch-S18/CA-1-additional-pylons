@@ -16,5 +16,6 @@ module Processor(reset, clock, data, address, read, write);
 	DatapathRegALU datapath(controlWord, reset, clock, K, PC4, status, data, address, read, write, PCin);
 	control_unit controlUnit(instruction, status, reset, clock, controlWord, K);
 	//ROM rom(instruction, PC[17:2]);
-	rom_case rom(instruction, PC[17:2]);
+	//rom_case rom(instruction, PC[17:2]);
+	ROM_Cycle_Screen rom(instruction, PC[17:2]);
 endmodule
