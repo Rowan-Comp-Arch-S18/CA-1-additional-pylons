@@ -62,5 +62,5 @@ module ProcessorDE0(
 	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
 	// Extension Board
-	GPIO extension(CLOCK_50, data, GPIO0_D);
+	GPIO extension(CLOCK_50, data, address, read, write, GPIO0_D);
 endmodule
