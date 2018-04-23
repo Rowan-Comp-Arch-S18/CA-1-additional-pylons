@@ -53,5 +53,10 @@ module ProcessorDE0(
 	Processor proc(~BUTTON[0], CLOCK_50, data, address, read, write);
 	assign LEDG[9:0] = data[9:0];
 	// Peripherals
+	// GPU
 	GPU gpu(CLOCK_50, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
+	// SD Card
+	SD_Card();
+	// Keyboard
+	// Extension Board
 endmodule
