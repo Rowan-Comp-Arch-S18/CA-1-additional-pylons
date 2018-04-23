@@ -56,7 +56,7 @@ module ProcessorDE0(
 	// GPU
 	GPU gpu(CLOCK_50, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
 	// SD Card
-	SD_Card(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
+	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
 	// Extension Board
 endmodule
