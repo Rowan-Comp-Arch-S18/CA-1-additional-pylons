@@ -21,7 +21,7 @@ module GPUVGAController(clockVGA, displayEnable, row, col, hsync_n, vsync_n);
 	
 	// Location
 	reg [9:0] hCounter, vCounter;
-	assign col = hCounter - (hsyncTime + hBPTime);
+	assign col = (hCounter - (hsyncTime + hBPTime)) >= displayWidth ? 10'b0 : hCounter - (hsyncTime + hBPTime);
 	assign row = vCounter - (vsyncTime + vBPTime);
 	
 	// States
