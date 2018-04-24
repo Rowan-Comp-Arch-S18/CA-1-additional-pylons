@@ -12,9 +12,9 @@ module GPUCharPixelDisplay(pixelMode, backgroundColor, row, col, charData, charA
 	wire [11:0] charAddressCalcTemp, charAddressCalc, pixelAddressCalc;
 	// Char
 	assign charAddressCalcTemp = {row[9:4], 1'b0} + {row[9:4], 3'b000};
-	assign charAddressCalc = colPlusOne[10:2] + {charAddressCalcTemp, 1'b0};
+	assign charAddressCalc = colPlusOne[10:5] + {charAddressCalcTemp, 1'b0};
 	// Pixel
-	assign pixelAddressCalc = 10'd600 + {row[9:3], 3'b000} + row[9:2] + colPlusOne[10:3];
+	assign pixelAddressCalc = 10'd600 + {row[9:3], 3'b000} + row[9:3] + colPlusOne[10:6];
 	
 	// Character calculations
 	wire [11:0] charColorCalc, charColor;
