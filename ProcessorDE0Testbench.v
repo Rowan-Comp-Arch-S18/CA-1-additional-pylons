@@ -64,7 +64,7 @@ module ProcessorDE0Testbench();
 		button[2:1] <= 2'b00;
 		button[0] <= 1'b0;
 		#7 button[0] <= 1'b1;
-		#1000000 $stop;
+		#10000000 $stop;
 	end
 	
 	always begin
