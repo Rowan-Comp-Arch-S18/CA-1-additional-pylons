@@ -1,7 +1,7 @@
 module Decimalto7Seg(in, out);
 	
 	input [3:0] in;
-	output [7:0] out;
+	output reg [7:0] out;
 	
 	always @ (in) begin
 		case(in)
@@ -16,5 +16,6 @@ module Decimalto7Seg(in, out);
 			4'h8: out <= 8'b01111111;
 			4'h9: out <= 8'b01101111;
 			default: out <= 8'b00000000;
-	
+		endcase
+	end
 endmodule
