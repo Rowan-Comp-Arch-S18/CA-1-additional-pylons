@@ -85,7 +85,7 @@ module GPU(procClock, clock50, vgaOut, data, address, read, write);
 	assign extFramebufferIn = controlSignals[1] ? 64'b0 : data;
 	assign intFramebufferIn = controlSignals[1] ? 64'b0 : extFramebufferOut;
 	assign extFramebufferAddress = copyEnable ? copyCounter : address[10:0] - GPUCharactersAddressMin;
-	assign intFramebufferAddress = copyEnable ? copyCounter : charPixelDisplayAddress;
+	assign intFramebufferAddress = copyEnable ? copyCounter - 11'd1 : charPixelDisplayAddress;
 	GPUFramebuffer external(extFramebufferAddress, clockExtFramebuffer, extFramebufferIn, (~vgaVS & controlSignals[1]) | (characterAddress & write), extFramebufferOut);
 	GPUFramebuffer internal(intFramebufferAddress, clockVGA, intFramebufferIn, copyEnable, intFramebufferOut);
 endmodule
