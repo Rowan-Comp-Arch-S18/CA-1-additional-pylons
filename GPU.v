@@ -15,7 +15,7 @@ module GPU(procClock, clock50, vgaOut, data, address, read, write);
 	assign correctAddress = address[63:56] == GPUAddress;
 	assign controlAddress = (address[10:0] == GPUControlAddress) ? correctAddress : 1'b0;
 	assign statusAddress = (address[10:0] == GPUStatusAddress) ? correctAddress : 1'b0;
-	assign characterAddress = ((address[10:0] >= GPUCharactersAddressMin) & (address[10:0] < GPUCharactersAddressMin)) ? correctAddress : 1'b0;
+	assign characterAddress = ((address[10:0] >= GPUCharactersAddressMin) & (address[10:0] < GPUCharactersAddressMax)) ? correctAddress : 1'b0;
 	
 	// VGA control
 	output [13:0] vgaOut;
@@ -65,7 +65,7 @@ module GPU(procClock, clock50, vgaOut, data, address, read, write);
 		lastCopyEnable <= 1'b0;
 		copyCounter <= 11'b0;
 	end
-	always @(negedge procClock) begin
+	always @(negedge clockVGA) begin
 		lastCopyEnable <= copyEnable;
 	end
 	always @(posedge clockVGA) begin
