@@ -17,5 +17,6 @@ module Processor(reset, clock, data, address, read, write);
 	control_unit controlUnit(instruction, status, reset, clock, controlWord, K);
 	//ROM rom(instruction, PC[17:2]);
 	//rom_case rom(instruction, PC[17:2]);
-	ROM_Cycle_Screen rom(instruction, PC[17:2]);
+	//ROM_Pixel_Test rom(instruction, PC[17:2]);
+	ROM_Image_Display rom(instruction, PC[17:2]);
 endmodule
