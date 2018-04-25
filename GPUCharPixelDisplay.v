@@ -1,20 +1,28 @@
-module GPUCharPixelDisplay(pixelMode, backgroundColor, row, col, charData, charAddress, vga);
-	input pixelMode;
+module GPUCharPixelDisplay(clock, pixelMode, backgroundColor, row, col, charDataIn, charAddress, vga);
+	input clock, pixelMode;
 	input [11:0] backgroundColor;
 	input [9:0] row, col;
-	input [63:0] charData;
+	input [63:0] charDataIn;
 	output [10:0] charAddress;
 	output [11:0] vga;
 	
 	// Calculate the next charAddress
 	wire [11:0] colPlusOne;
-	assign colPlusOne = col + 1'b1;
+	assign colPlusOne = col + 10'd1;
 	wire [11:0] charAddressCalcTemp, charAddressCalc, pixelAddressCalc;
 	// Char
 	assign charAddressCalcTemp = {row[9:4], 1'b0} + {row[9:4], 3'b000};
 	assign charAddressCalc = colPlusOne[10:5] + {charAddressCalcTemp, 1'b0};
 	// Pixel
 	assign pixelAddressCalc = 10'd600 + {row[9:3], 3'b000} + row[9:3] + colPlusOne[10:6];
+	
+	reg [63:0] charData;
+	initial begin
+		charData <= 64'b0;
+	end
+	always @(posedge clock) begin
+		charData <= charDataIn;
+	end
 	
 	// Character calculations
 	wire [11:0] charColorCalc, charColor;

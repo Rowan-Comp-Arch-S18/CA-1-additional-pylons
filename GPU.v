@@ -79,7 +79,7 @@ module GPU(procClock, clock50, vgaOut, data, address, read, write);
 	
 	// Char/Pixel display
 	wire [10:0] charPixelDisplayAddress;
-	GPUCharPixelDisplay charPixelDisplay(controlSignals[2], controlSignals[14:3], row, col, intFramebufferOut, charPixelDisplayAddress, vga);
+	GPUCharPixelDisplay charPixelDisplay(clockVGA, controlSignals[2], controlSignals[14:3], row, col, intFramebufferOut, charPixelDisplayAddress, vga);
 	
 	// Framebuffers
 	assign extFramebufferIn = controlSignals[1] ? 64'b0 : data;
