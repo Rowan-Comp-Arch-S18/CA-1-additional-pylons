@@ -14,7 +14,7 @@ module GPUCharPixelDisplay(clock, pixelMode, backgroundColor, row, col, charData
 	assign charAddressCalcTemp = {row[9:4], 1'b0} + {row[9:4], 3'b000};
 	assign charAddressCalc = colPlusOne[10:5] + {charAddressCalcTemp, 1'b0};
 	// Pixel
-	assign pixelAddressCalc = 10'd600 + {row[9:3], 3'b000} + row[9:3] + colPlusOne[10:6];
+	assign pixelAddressCalc = 10'd600 + {row[9:3], 3'b000} + row[9:3] + row[9:3] + colPlusOne[10:6];
 	
 	reg [63:0] charData;
 	initial begin
