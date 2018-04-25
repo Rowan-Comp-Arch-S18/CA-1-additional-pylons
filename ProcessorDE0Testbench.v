@@ -6,10 +6,17 @@ module ProcessorDE0Testbench();
 	reg clock;// Monitors
 	wire [63:0] PCin, PC, PC4, data, address, K;
 	wire read, write;
+	wire [9:0] rowGPU, colGPU;
+	wire [10:0] intCharAddGPU, extAddGPU;
 	wire [31:0] instruction; // 32 bit
 	wire [30:0] controlWord; // 31 bit
 	wire [4:0] DA, SA, SB; // register addresses
 	wire [63:0] R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30;
+	
+	assign rowGPU = dut.gpu.row;
+	assign colGPU = dut.gpu.col;
+	assign intCharAddGPU = dut.gpu.charPixelDisplayAddress;
+	assign extAddGPU = dut.gpu.extFramebufferAddress;
 	
 	// Connect monitors
 	assign PCin = dut.proc.PCin;
