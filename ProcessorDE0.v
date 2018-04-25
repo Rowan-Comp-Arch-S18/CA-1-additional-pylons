@@ -53,14 +53,16 @@ module ProcessorDE0(
 	wire read, write;
 	
 	// Processor
-	Processor proc(~BUTTON[0], CLOCK_50, data, address, read, write);
+	wire clock25;
+	GPUVGAClock tempSlowClock(CLOCK_50, clock25);
+	Processor proc(~BUTTON[0], clock25, data, address, read, write);
 	assign LEDG[9:0] = data[9:0];
 	// Peripherals
 	// GPU
-	GPU gpu(CLOCK_50, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
+	GPU gpu(clock25, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
 	// SD Card
 	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
 	// Extension Board
-	GPIO extension(CLOCK_50, data, address, read, write, GPIO0_D);
+	GPIO extension(clock25, data, address, read, write, GPIO0_D);
 endmodule
