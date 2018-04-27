@@ -1,5 +1,6 @@
-module ConverterV3(ADDRESS, CLOCK_50, PS2_KBCLK, PS2_KBDAT, OUT);
+module ConverterV3(ADDRESS, READ, CLOCK_50, PS2_KBCLK, PS2_KBDAT, OUT);
 	input [63:0] ADDRESS;												// Address
+	input READ;																// Read enable on the data bus
 	input CLOCK_50;														// Board clock
    input PS2_KBCLK;														// Keyboard clock
    input PS2_KBDAT;														// Keyboard data
@@ -13,7 +14,7 @@ module ConverterV3(ADDRESS, CLOCK_50, PS2_KBCLK, PS2_KBDAT, OUT);
 	parameter KB_ADDRESS = 8'b00000001;
 	
 	assign correctAddress = (ADDRESS[63:56] == KB_ADDRESS) ? 1'b1 : 1'b0;
-	assign OUT = correctAddress ? outReg : 64'bz;
+	assign OUT = correctAddress & READ ? outReg : 64'bz;
 	
 	KeyboardV3 keyboard(CLOCK_50, PS2_KBCLK, PS2_KBDAT, reg0, reg1);
 	
