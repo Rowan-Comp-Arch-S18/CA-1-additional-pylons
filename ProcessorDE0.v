@@ -64,7 +64,7 @@ module ProcessorDE0(
 	// SD Card
 	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
-	ConverterV3 keyboardConverter(address, CLOCK_50, PS2_KBCLK, PS2_KBDAT, data);
+	ConverterV3 keyboardConverter(address, read, CLOCK_50, PS2_KBCLK, PS2_KBDAT, data);
 	// Extension Board
 	GPIO extension(clock25, data, address, read, write, GPIO0_D);
 endmodule
