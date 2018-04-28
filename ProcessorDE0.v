@@ -68,5 +68,5 @@ module ProcessorDE0(
 	// Extension Board
 	GPIO extension(clock25, data, address, read, write, GPIO0_D);
 	// Pseudo Random Number Generator
-	PseudoRandomNumberGenerator(clock25, data, address, read, write);
+	PseudoRandomNumberGenerator prng(clock25, data, address, read, write);
 endmodule
