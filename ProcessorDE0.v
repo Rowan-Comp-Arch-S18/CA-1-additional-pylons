@@ -67,4 +67,6 @@ module ProcessorDE0(
 	ConverterV3 keyboardConverter(address, read, CLOCK_50, PS2_KBCLK, PS2_KBDAT, data);
 	// Extension Board
 	GPIO extension(clock25, data, address, read, write, GPIO0_D);
+	// Pseudo Random Number Generator
+	PseudoRandomNumberGenerator(clock25, data, address, read, write);
 endmodule
