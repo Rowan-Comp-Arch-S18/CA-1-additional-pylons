@@ -1,9 +1,11 @@
+`timescale 1ns / 1ns
 module ProcessorDE0Testbench();
 	// Signals
 	reg [2:0] button;
 	wire [3:0] vgaR, vgaG, vgaB;
 	wire vgaHS, vgaVS;
 	reg clock;// Monitors
+	wire procClock;
 	wire [63:0] PCin, PC, PC4, data, address, K;
 	wire read, write;
 	wire [9:0] rowGPU, colGPU;
@@ -19,6 +21,7 @@ module ProcessorDE0Testbench();
 	assign extAddGPU = dut.gpu.extFramebufferAddress;
 	
 	// Connect monitors
+	assign procClock = dut.procClock;
 	assign PCin = dut.proc.PCin;
 	assign PC = dut.proc.PC;
 	assign PC4 = dut.proc.PC4;
@@ -70,7 +73,7 @@ module ProcessorDE0Testbench();
 		clock <= 1'b1;
 		button[2:1] <= 2'b00;
 		button[0] <= 1'b0;
-		#7 button[0] <= 1'b1;
+		#70 button[0] <= 1'b1;
 		#10000000 $stop;
 	end
 	

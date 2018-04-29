@@ -54,19 +54,19 @@ module ProcessorDE0(
 	wire read, write;
 	
 	// Processor
-	wire clock25;
-	GPUVGAClock tempSlowClock(CLOCK_50, clock25);
-	Processor proc(~BUTTON[0], clock25, data, address, read, write);
+	wire procClock;
+	ProcessorPLL procPLL(CLOCK_50, procClock);
+	Processor proc(~BUTTON[0], procClock, data, address, read, write);
 	assign LEDG[9:0] = data[9:0];
 	// Peripherals
 	// GPU
-	GPU gpu(clock25, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
+	GPU gpu(procClock, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
 	// SD Card
 	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
 	ConverterV3 keyboardConverter(address, read, CLOCK_50, PS2_KBCLK, PS2_KBDAT, data);
 	// Extension Board
-	GPIO extension(clock25, data, address, read, write, GPIO0_D);
+	GPIO extension(procClock, data, address, read, write, GPIO0_D);
 	// Pseudo Random Number Generator
-	PseudoRandomNumberGenerator prng(clock25, data, address, read, write);
+	PseudoRandomNumberGenerator prng(procClock, data, address, read, write);
 endmodule
