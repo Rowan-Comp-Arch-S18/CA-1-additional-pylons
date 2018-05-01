@@ -17,7 +17,7 @@ module Screen_Render(clockin, SevSeg, R1, R2, R3, R4, R5, R6, R7, R8, GPIO0);
 	wire [3:0] SegIn;
 	
 	assign andwire2[15:8] = andwire, andwire2[7:0] = andwire;
-	assign GPIO0[31:24] = SegOut;
+	assign GPIO0[31:24] = (SegOut & andwire2);
 	assign row[31:24] = 8'b00000000;
 	assign GPIO0[23:8] = (column & andwire2), GPIO0[7:0] = (row[7:0] & andwire);
 	
