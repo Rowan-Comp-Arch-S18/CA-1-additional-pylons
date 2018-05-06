@@ -1,26 +1,28 @@
 module Screen_Render(clockin, SevSeg, R1, R2, R3, R4, R5, R6, R7, R8, GPIO0);
 	
 	input clockin;
-	input [3:0] SevSeg;
+	input [31:0] SevSeg;
 	input [15:0] R1, R2, R3, R4, R5, R6, R7, R8;
 	output [31:0]GPIO0;
 	
 	wire [31:0]row;
 	wire [15:0]column;
-
+	
 	reg [5:0]count;
 	wire [7:0]andwire;
 	wire [15:0]andwire2;
 	wire [7:0]rowselect;
 	
 	wire [7:0] SegOut;
+	wire [3:0] SegIn;
 	
 	assign andwire2[15:8] = andwire, andwire2[7:0] = andwire;
-	assign GPIO0[31:24] = SegOut;
+	assign GPIO0[31:24] = (SegOut & andwire2);
 	assign row[31:24] = 8'b00000000;
 	assign GPIO0[23:8] = (column & andwire2), GPIO0[7:0] = (row[7:0] & andwire);
 	
-	Decimalto7Seg inst5(SevSeg, SegOut);
+	
+	Decimalto7Seg inst5(count[2:0], SevSeg[31:0], SegOut);
 	
 	anding inst3 (count, andwire);
 	timekeep inst4 (clockin, clock);
@@ -34,7 +36,8 @@ module Screen_Render(clockin, SevSeg, R1, R2, R3, R4, R5, R6, R7, R8, GPIO0);
 	
 	decoder inst1(clock, count[2:0], row[7:0]);
 	mux inst2(clock, count[2:0], R1, R2, R3, R4, R5, R6, R7, R8, column);
-
+	//muxHex mux3(clock, count[2:0], SevSeg[3:0], SevSeg[7:4], SevSeg[11:8], SevSeg[15:12], SevSeg[19:16], SevSeg[23:20],SevSeg[27:24],SevSeg[31:28], SevIn);
+	
 endmodule 
 
 
@@ -78,6 +81,26 @@ module mux(clock, S, R1, R2, R3, R4, R5, R6, R7, R8, out);
 			3'b110: out <= R7;
 			3'b111: out <= R8;
 			default: out <= 16'b0000000000000000;
+		endcase	
+	end
+	
+endmodule	
+module muxHex(clock, S, R1, R2, R3, R4, R5, R6, R7, R8, out);
+	input clock;
+	input [2:0]S;
+	input [3:0]R1, R2, R3, R4, R5, R6, R7, R8;
+	output reg [3:0]out;
+	always @(S) begin
+		case(S[2:0])
+			3'b000: out <= R1;
+			3'b001: out <= R2;
+			3'b010: out <= R3;
+			3'b011: out <= R4;
+			3'b100: out <= R5;
+			3'b101: out <= R6;
+			3'b110: out <= R7;
+			3'b111: out <= R8;
+			default: out <= 4'b0000;
 		endcase	
 	end
 	

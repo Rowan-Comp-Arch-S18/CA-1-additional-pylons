@@ -18,5 +18,8 @@ module Processor(reset, clock, data, address, read, write);
 	//ROM rom(instruction, PC[17:2]);
 	//rom_case rom(instruction, PC[17:2]);
 	//ROM_Pixel_Test rom(instruction, PC[17:2]);
-	ROM_Image_Display rom(instruction, PC[17:2]);
+	//ROM_Image_Display rom(instruction, PC[17:2]);
+	//ROM_Flippy_Bit rom(instruction, PC[17:2]);
+	//ROM_GPIO_Image rom(instruction, PC[17:2]); // TWO PLAYER PONG
+	ROM_GPIO_Timer rom(instruction, PC[17:2]); // GPIO LED TIMER/OUTPUT SAMPLE CODE
 endmodule

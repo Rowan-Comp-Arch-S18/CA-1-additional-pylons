@@ -26,6 +26,7 @@ module ProcessorDE0(
 	output [6:0] HEX0, HEX1, HEX2, HEX3;
 	// GPIO Extension Board
 	output [31:0]GPIO0_D;
+	
 	// INPUT
 	// Switches
 	input [9:0] SW;
@@ -39,10 +40,10 @@ module ProcessorDE0(
 	input CLOCK_50, CLOCK_50_2;
 	// GPIO Extension Board
 	input [31:0]GPIO1_D;
+	// PS/2 Keyboard
+	input PS2_KBCLK, PS2_KBDAT;
 	
 	// INOUT
-	// PS/2 Keyboard
-	inout PS2_KBCLK, PS2_KBDAT;
 	// SD Card
 	inout SD_CMD, SD_DAT0, SD_DAT3;
 	// SDRAM
@@ -53,16 +54,19 @@ module ProcessorDE0(
 	wire read, write;
 	
 	// Processor
-	wire clock25;
-	GPUVGAClock tempSlowClock(CLOCK_50, clock25);
-	Processor proc(~BUTTON[0], clock25, data, address, read, write);
+	wire procClock;
+	ProcessorPLL procPLL(CLOCK_50, procClock);
+	Processor proc(~BUTTON[0], procClock, data, address, read, write);
 	assign LEDG[9:0] = data[9:0];
 	// Peripherals
 	// GPU
-	GPU gpu(clock25, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
+	GPU gpu(procClock, CLOCK_50, {VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS}, data, address, read, write);
 	// SD Card
 	SD_Card sd(SD_CLK, SD_CMD, {SD_DAT3, SD_DAT0}, SD_WP_N);
 	// Keyboard
+	ConverterV3 keyboardConverter(address, read, CLOCK_50, PS2_KBCLK, PS2_KBDAT, data);
 	// Extension Board
-	GPIO extension(clock25, data, address, read, write, GPIO0_D);
+	GPIO extension(procClock, GPIO1_D, BUTTON, SW, data, address, read, write, GPIO0_D, HEX0, HEX1, HEX2, HEX3);
+	// Pseudo Random Number Generator
+	PseudoRandomNumberGenerator prng(procClock, data, address, read, write);
 endmodule

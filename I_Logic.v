@@ -13,7 +13,7 @@ module I_Logic(instruction, state, controlWord, nextState, K);
 	assign Psel = 2'b01; // PC <- PC + 4
 	assign DA = instruction[4:0];
 	assign SA = instruction[9:5]; // Rn = A
-	assign SB = 5'd0; // K is used instead of B
+	assign SB = instruction[20:16];
 	assign Fsel = {1'b0, instruction[30] & ~instruction[29], instruction[30] ^ instruction[29], 2'b00};
 	assign regW = 1'b1; // Write to register
 	assign ramW = 1'b0; // Do not write to RAM
@@ -21,7 +21,7 @@ module I_Logic(instruction, state, controlWord, nextState, K);
 	assign EN_ALU = 1'b1; //Enable ALU on data bus
 	assign EN_B = 1'b0;
 	assign EN_PC = 1'b0;
-	assign Bsel = 1'b1; // Enable K to be used instead of B
+	assign Bsel = instruction[28]; // Enable K to be used instead of B
 	assign PCsel = 1'b0; // (Don't care)
 	assign SL = instruction[30] & instruction[29]; // Store on bit 29
 	

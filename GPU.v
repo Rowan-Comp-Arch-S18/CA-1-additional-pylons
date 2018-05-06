@@ -43,7 +43,7 @@ module GPU(procClock, clock50, vgaOut, data, address, read, write);
 	initial begin
 		controlSignals <= 64'b0010; // Blank the display
 	end
-	always @(posedge clock50) begin
+	always @(posedge procClock) begin
 		if (resetControlSignals) begin
 			controlSignals[1:0] <= 2'b00;
 		end
